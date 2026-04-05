@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FL Permits">
+    <meta name="theme-color" content="#0066cc">
+    <meta name="description" content="Track Florida residential water management district permits">
+
+    <title>FL Water Permit Tracker</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- App Shell -->
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <button id="settings-btn" class="icon-btn" aria-label="Settings">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                    </button>
+                </div>
+                <h1 class="header-title">Permit Alerts</h1>
+                <div class="header-right">
+                    <button id="filter-btn" class="icon-btn" aria-label="Filter">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="6" x2="20" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="8" y1="18" x2="16" y2="18"/>
+                        </svg>
+                        <span id="filter-badge" class="filter-badge hidden">0</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Search Bar -->
+            <div class="search-container">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="search" id="search-input" class="search-input" placeholder="Search permits...">
+            </div>
+        </header>
+
+        <!-- Summary Bar -->
+        <div id="summary-bar" class="summary-bar">
+            <span id="summary-text" class="summary-text"></span>
+            <span id="update-time" class="update-time"></span>
+        </div>
+
+        <!-- Active Filters Bar -->
+        <div id="active-filters" class="active-filters hidden">
+            <span class="filter-info">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="8" y1="18" x2="16" y2="18"/>
+                </svg>
+                <span id="filter-count-text"></span>
+            </span>
+            <button id="clear-filters-btn" class="clear-filters-btn">Clear</button>
+        </div>
+
+        <!-- Main Permit Feed -->
+        <main id="permit-feed" class="permit-feed">
+            <!-- Cards injected here -->
+        </main>
+
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading permits...</p>
+        </div>
+
+        <!-- Load More Spinner -->
+        <div id="load-more" class="load-more hidden">
+            <div class="spinner small"></div>
+        </div>
+
+        <!-- End of List -->
+        <div id="end-of-list" class="end-of-list hidden">
+            All permits loaded
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state hidden">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <h3>No permits match your filters</h3>
+            <p>Try adjusting your filter criteria or search terms.</p>
+            <button id="reset-filters-btn" class="btn-secondary">Reset Filters</button>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="detail-back-btn" class="icon-btn" aria-label="Back">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <h2 class="modal-title">Permit Details</h2>
+                <div style="width:36px"></div>
+            </div>
+            <div id="detail-body" class="modal-body">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div id="filter-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="width:50px"></div>
+                <h2 class="modal-title">Filters</h2>
+                <button id="filter-done-btn" class="text-btn">Done</button>
+            </div>
+            <div class="modal-body" id="filter-body">
+                <!-- Districts -->
+                <div class="filter-section">
+                    <h3 class="filter-section-title">Water Management Districts</h3>
+                    <div id="district-filters"></div>
+                </div>
+                <!-- Statuses -->
+                <div class="filter-section">
+                    <h3 class="filter-section-title">Permit Status</h3>
+                    <div id="status-filters"></div>
+                </div>
+                <!-- Sort -->
+                <div class="filter-section">
+                    <h3 class="filter-section-title">Sort Order</h3>
+                    <div id="sort-options"></div>
+                </div>
+                <!-- Reset -->
+                <div class="filter-section">
+                    <button id="reset-all-btn" class="btn-destructive">Reset All Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="width:50px"></div>
+                <h2 class="modal-title">Settings</h2>
+                <button id="settings-done-btn" class="text-btn">Done</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section">
+                    <h3 class="filter-section-title">Notifications</h3>
+                    <div class="toggle-row">
+                        <span>Daily Update Alerts</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="notif-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p class="setting-hint" id="notif-hint">Updates daily at 4:00 PM EST</p>
+                </div>
+                <div class="filter-section">
+                    <h3 class="filter-section-title">Water Management Districts</h3>
+                    <div id="district-links"></div>
+                </div>
+                <div class="filter-section">
+                    <h3 class="filter-section-title">About</h3>
+                    <div class="info-row"><span>Version</span><span class="secondary">1.0.0</span></div>
+                    <div class="info-row"><span>Data Source</span><span class="secondary">FL Water Mgmt Districts</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
