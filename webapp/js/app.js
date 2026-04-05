@@ -239,7 +239,7 @@
                     ${timeAgo}
                 </span>
                 <button class="district-link" data-url="${escapeHtml(permit.permitURL)}" onclick="event.stopPropagation(); window.open('${escapeHtml(permit.permitURL)}', '_blank');">
-                    Search Permit Portal
+                    ${permit.permitURL.includes('searchDetail') || permit.permitURL.includes('permitNumber') ? 'View Permit Record' : 'Open Permit Portal'}
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                         <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
@@ -332,9 +332,9 @@
             </div>
 
             <div class="detail-section">
-                <div class="detail-section-title">Look Up This Permit</div>
+                <div class="detail-section-title">Permit Record</div>
                 <div class="detail-row">
-                    <div class="info-label">Search for this permit number on the district portal</div>
+                    <div class="info-label">Application / Permit Number</div>
                     <div class="info-value" style="display:flex;align-items:center;gap:8px;margin-top:4px;">
                         <code style="background:var(--bg);padding:6px 12px;border-radius:6px;font-size:16px;font-weight:600;letter-spacing:0.5px;">${escapeHtml(permit.id)}</code>
                         <button onclick="navigator.clipboard.writeText('${escapeHtml(permit.id)}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="background:var(--primary);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Copy</button>
@@ -348,7 +348,7 @@
                         <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
                         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                     </svg>
-                    Search on ${escapeHtml(district.shortName)} Permit Portal
+                    ${permit.permitURL.includes('searchDetail') || permit.permitURL.includes('permitNumber') ? 'View Permit Record' : 'Open ' + escapeHtml(district.shortName) + ' Permit Portal'}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                         <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
