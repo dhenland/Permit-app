@@ -69,7 +69,7 @@
             if (!state.filters.statuses.has(p.status)) return false;
             if (state.filters.searchText) {
                 const q = state.filters.searchText.toLowerCase();
-                const fields = [p.applicant, p.owner, p.project, p.county, p.location, p.id];
+                const fields = [p.applicant, p.owner, p.project, p.county, p.location, p.id, p.permitNumber || '', p.applicationNumber || ''];
                 if (!fields.some(f => f.toLowerCase().includes(q))) return false;
             }
             return true;
@@ -193,12 +193,21 @@
             <div class="card-info">
                 <div class="info-item">
                     <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <div class="info-content">
+                        <div class="info-label">Permit #</div>
+                        <div class="info-value" style="font-family:monospace;font-weight:600;">${escapeHtml(permit.permitNumber || permit.id)}</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                     </svg>
                     <div class="info-content">
-                        <div class="info-label">Units</div>
-                        <div class="info-value">${permit.units} residential units</div>
+                        <div class="info-label">Units / Acreage</div>
+                        <div class="info-value">${permit.units} units · ${permit.acreage ? permit.acreage + ' acres' : 'N/A'}</div>
                     </div>
                 </div>
                 <div class="info-item">
@@ -217,16 +226,6 @@
                     <div class="info-content">
                         <div class="info-label">Applicant</div>
                         <div class="info-value">${escapeHtml(permit.applicant)}</div>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
-                    <div class="info-content">
-                        <div class="info-label">Owner</div>
-                        <div class="info-value">${escapeHtml(permit.owner)}</div>
                     </div>
                 </div>
             </div>
@@ -272,7 +271,7 @@
                     <span class="detail-district-name">${district.fullName}</span>
                 </div>
                 <div class="detail-project-name">${escapeHtml(permit.project)}</div>
-                <div class="detail-app-number">${permit.id}</div>
+                <div class="detail-app-number">Permit: ${escapeHtml(permit.permitNumber || permit.id)}</div>
             </div>
 
             <div class="detail-section">
@@ -293,6 +292,10 @@
                     <div class="info-label">Residential Units</div>
                     <div class="info-value">${permit.units}</div>
                 </div>
+                <div class="detail-row">
+                    <div class="info-label">Acreage</div>
+                    <div class="info-value">${permit.acreage ? permit.acreage + ' acres' : 'N/A'}</div>
+                </div>
             </div>
 
             <div class="detail-section">
@@ -310,8 +313,12 @@
             <div class="detail-section">
                 <div class="detail-section-title">Permit Information</div>
                 <div class="detail-row">
-                    <div class="info-label">Application #</div>
-                    <div class="info-value">${permit.id}</div>
+                    <div class="info-label">Permit Number</div>
+                    <div class="info-value" style="font-family:monospace;font-weight:600;">${escapeHtml(permit.permitNumber || permit.id)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="info-label">Application Number</div>
+                    <div class="info-value" style="font-family:monospace;font-weight:600;">${escapeHtml(permit.applicationNumber || 'N/A')}</div>
                 </div>
                 <div class="detail-row">
                     <div class="info-label">Type</div>
@@ -334,12 +341,20 @@
             <div class="detail-section">
                 <div class="detail-section-title">Permit Record</div>
                 <div class="detail-row">
-                    <div class="info-label">Application / Permit Number</div>
+                    <div class="info-label">Permit Number</div>
                     <div class="info-value" style="display:flex;align-items:center;gap:8px;margin-top:4px;">
-                        <code style="background:var(--bg);padding:6px 12px;border-radius:6px;font-size:16px;font-weight:600;letter-spacing:0.5px;">${escapeHtml(permit.id)}</code>
-                        <button onclick="navigator.clipboard.writeText('${escapeHtml(permit.id)}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="background:var(--primary);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Copy</button>
+                        <code style="background:var(--bg);padding:6px 12px;border-radius:6px;font-size:16px;font-weight:600;letter-spacing:0.5px;">${escapeHtml(permit.permitNumber || permit.id)}</code>
+                        <button onclick="navigator.clipboard.writeText('${escapeHtml(permit.permitNumber || permit.id)}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="background:var(--primary);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Copy</button>
                     </div>
                 </div>
+                <div class="detail-row">
+                    <div class="info-label">Application Number</div>
+                    <div class="info-value" style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                        <code style="background:var(--bg);padding:6px 12px;border-radius:6px;font-size:16px;font-weight:600;letter-spacing:0.5px;">${escapeHtml(permit.applicationNumber || 'N/A')}</code>
+                        <button onclick="navigator.clipboard.writeText('${escapeHtml(permit.applicationNumber || '')}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="background:var(--primary);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Copy</button>
+                    </div>
+                </div>
+                <p style="margin:8px 0 0;font-size:12px;color:var(--text-tertiary);line-height:1.4;">Use the permit or application number above to search on the district portal.</p>
             </div>
 
             <div class="detail-link-btn">

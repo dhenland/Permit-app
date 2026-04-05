@@ -41,242 +41,290 @@ const DISTRICTS = {
 };
 
 const STATUS_CONFIG = {
-    'New Application': {
-        cssClass: 'new-application',
-        icon: '📋',
-        isAlert: true
-    },
-    'Under Review': {
-        cssClass: 'under-review',
-        icon: '🕐',
-        isAlert: false
-    },
-    'Approved': {
-        cssClass: 'approved',
-        icon: '✅',
-        isAlert: true
-    },
-    'Denied': {
-        cssClass: 'denied',
-        icon: '❌',
-        isAlert: false
-    },
-    'Expired': {
-        cssClass: 'expired',
-        icon: '⏰',
-        isAlert: false
-    }
+    'New Application': { cssClass: 'new-application', icon: '📋', isAlert: true },
+    'Under Review':    { cssClass: 'under-review',    icon: '🕐', isAlert: false },
+    'Approved':        { cssClass: 'approved',         icon: '✅', isAlert: true },
+    'Denied':          { cssClass: 'denied',           icon: '❌', isAlert: false },
+    'Expired':         { cssClass: 'expired',          icon: '⏰', isAlert: false }
 };
 
 function generateSamplePermits() {
     const now = new Date();
     const day = 24 * 60 * 60 * 1000;
 
+    // Each district uses its own permit/application number format:
+    //   SFWMD:  XX-NNNNNN-P (county code - sequence - P)
+    //   SJRWMD: Individual ERP uses numeric IDs
+    //   SWFWMD: ERP uses numeric permit IDs
+    //   SRWMD:  Uses SJRWMD ePermit portal
+    //   NWFWMD: Uses SJRWMD ePermit portal
+
     const rawData = [
         {
-            id: 'APP-2026-00142', district: 'SFWMD', status: 'New Application',
+            permitNumber: '50-110245-P',
+            applicationNumber: '50-110245-S',
+            district: 'SFWMD', status: 'New Application',
             type: 'Environmental Resource Permit',
-            applicant: 'Sunshine Development LLC', owner: 'Palm Beach Land Trust',
-            project: 'Palm Beach Gardens Residential Phase 3',
-            county: 'Palm Beach', location: '4200 Hood Rd, Palm Beach Gardens, FL 33418',
-            units: 248, daysAgo: 0,
+            applicant: 'GL Homes Ltd', owner: 'Avenir Holdings LLC',
+            project: 'Avenir Phase 4 — Residential Village',
+            county: 'Palm Beach',
+            location: '12000 Avenir Dr, Palm Beach Gardens, FL 33418',
+            units: 248, acreage: 84.77, daysAgo: 0,
             permitURL: 'https://www.sfwmd.gov/regpermitting',
-            lat: 26.8234, lon: -80.1389
+            lat: 26.8465, lon: -80.1182
         },
         {
-            id: 'APP-2026-00139', district: 'SFWMD', status: 'Approved',
-            type: 'Surface Water Management',
-            applicant: 'Coral Springs Holdings Inc', owner: 'Broward County Housing Authority',
-            project: 'Coral Springs Waterway Village',
-            county: 'Broward', location: '11000 W Sample Rd, Coral Springs, FL 33071',
-            units: 186, daysAgo: 2,
+            permitNumber: '06-109812-P',
+            applicationNumber: '06-109812-S',
+            district: 'SFWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Lennar Homes LLC', owner: 'Broward County Housing Authority',
+            project: 'Coral Springs Waterway Village — SWM System',
+            county: 'Broward',
+            location: '11000 W Sample Rd, Coral Springs, FL 33071',
+            units: 186, acreage: 42.3, daysAgo: 2,
             permitURL: 'https://www.sfwmd.gov/regpermitting',
             lat: 26.2712, lon: -80.2706
         },
         {
-            id: 'SJR-2026-03891', district: 'SJRWMD', status: 'New Application',
-            type: 'Water Use Permit',
-            applicant: 'Atlantic Coast Builders', owner: 'Volusia Development Group',
-            project: 'Daytona Shores Residential Community',
-            county: 'Volusia', location: '1500 Beville Rd, Daytona Beach, FL 32114',
-            units: 312, daysAgo: 1,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?permitNumber=SJR-2026-03891&theAction=searchDetail',
-            lat: 29.2108, lon: -81.0228
+            permitNumber: '155420',
+            applicationNumber: '155420-1',
+            district: 'SJRWMD', status: 'New Application',
+            type: 'Environmental Resource Permit',
+            applicant: 'Minto Communities LLC', owner: 'Latitude Margaritaville Ventures',
+            project: 'Latitude Margaritaville Daytona Beach — Phase 6',
+            county: 'Volusia',
+            location: '2400 LPGA Blvd, Daytona Beach, FL 32124',
+            units: 312, acreage: 120.5, daysAgo: 1,
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
+            lat: 29.1608, lon: -81.0628
         },
         {
-            id: 'SJR-2026-03887', district: 'SJRWMD', status: 'Approved',
+            permitNumber: '148791',
+            applicationNumber: '148791-4',
+            district: 'SJRWMD', status: 'Approved',
             type: 'Environmental Resource Permit',
-            applicant: 'Heritage Homes of Florida', owner: 'Flagler Estates LLC',
-            project: 'Flagler Oaks Subdivision',
-            county: 'Flagler', location: '200 Bulldog Dr, Palm Coast, FL 32137',
-            units: 124, daysAgo: 3,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?permitNumber=SJR-2026-03887&theAction=searchDetail',
-            lat: 29.5847, lon: -81.2079
+            applicant: 'D.R. Horton Inc', owner: 'Flagler Land Holdings LLC',
+            project: 'Grand Landings Phase 3 — Residential Subdivision',
+            county: 'Flagler',
+            location: '100 Grand Landings Pkwy, Palm Coast, FL 32164',
+            units: 124, acreage: 58.2, daysAgo: 3,
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
+            lat: 29.5453, lon: -81.2401
         },
         {
-            id: 'SWF-2026-12045', district: 'SWFWMD', status: 'New Application',
+            permitNumber: '43044694',
+            applicationNumber: '732499',
+            district: 'SWFWMD', status: 'New Application',
             type: 'Environmental Resource Permit',
-            applicant: 'Bay Area Development Corp', owner: 'Hillsborough Investment Trust',
-            project: 'Tampa Palms North Expansion',
-            county: 'Hillsborough', location: '16100 Tampa Palms Blvd W, Tampa, FL 33647',
-            units: 420, daysAgo: 0,
+            applicant: 'Metro Development Group', owner: 'Pasco County Land Trust',
+            project: 'Epperson Ranch Phase 5 — Residential Community',
+            county: 'Pasco',
+            location: '24840 Epperson Trail Blvd, Wesley Chapel, FL 33545',
+            units: 420, acreage: 210.4, daysAgo: 0,
             permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
-            lat: 28.0836, lon: -82.3940
+            lat: 28.2436, lon: -82.3140
         },
         {
-            id: 'SWF-2026-12038', district: 'SWFWMD', status: 'Approved',
-            type: 'Water Use Permit',
-            applicant: 'Sarasota Bay Homes LLC', owner: 'Gulf Coast Properties',
-            project: 'Sarasota Springs Community',
-            county: 'Sarasota', location: '8350 Bee Ridge Rd, Sarasota, FL 34238',
-            units: 156, daysAgo: 4,
-            permitURL: 'https://www18.swfwmd.state.fl.us/search/search/searchwupsimple.aspx',
-            lat: 27.2823, lon: -82.4572
+            permitNumber: '43041587',
+            applicationNumber: '718003',
+            district: 'SWFWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Neal Communities', owner: 'Sarasota Bay Land Corp',
+            project: 'Grand Park — Residential and SWM System',
+            county: 'Sarasota',
+            location: '8350 Fruitville Rd, Sarasota, FL 34240',
+            units: 156, acreage: 73.6, daysAgo: 4,
+            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
+            lat: 27.3323, lon: -82.4072
         },
         {
-            id: 'SRW-2026-00567', district: 'SRWMD', status: 'New Application',
-            type: 'Well Construction',
-            applicant: 'North Florida Living Inc', owner: 'Alachua County Land Corp',
-            project: 'Gainesville Green Estates',
-            county: 'Alachua', location: '7400 W Newberry Rd, Gainesville, FL 32606',
-            units: 88, daysAgo: 1,
+            permitNumber: 'ERP-033-233671',
+            applicationNumber: 'ERP-033-233671-1',
+            district: 'SRWMD', status: 'New Application',
+            type: 'Environmental Resource Permit',
+            applicant: 'Dream Finders Homes', owner: 'Alachua County Land Corp',
+            project: 'Edgemore at Town of Tioga — Lots and SWM',
+            county: 'Alachua',
+            location: '7400 W Newberry Rd, Gainesville, FL 32606',
+            units: 88, acreage: 34.1, daysAgo: 1,
             permitURL: 'https://permitting.sjrwmd.com/srep/',
             lat: 29.6516, lon: -82.3248
         },
         {
-            id: 'SRW-2026-00561', district: 'SRWMD', status: 'Approved',
-            type: 'Surface Water Management',
-            applicant: 'Columbia County Developers', owner: 'Lake City Properties LLC',
-            project: 'Lake City Lakefront Villas',
-            county: 'Columbia', location: '3500 S US Hwy 41, Lake City, FL 32025',
-            units: 64, daysAgo: 5,
+            permitNumber: 'ERP-023-228894',
+            applicationNumber: 'ERP-023-228894-2',
+            district: 'SRWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Forestar Group Inc', owner: 'Lake City Properties LLC',
+            project: 'Rose Creek — Residential Subdivision and SWM',
+            county: 'Columbia',
+            location: '3500 SW Sisters Welcome Rd, Lake City, FL 32025',
+            units: 64, acreage: 22.8, daysAgo: 5,
             permitURL: 'https://permitting.sjrwmd.com/srep/',
-            lat: 30.1897, lon: -82.6393
+            lat: 30.1697, lon: -82.6593
         },
         {
-            id: 'NWF-2026-00234', district: 'NWFWMD', status: 'New Application',
+            permitNumber: 'ERP-046-243018',
+            applicationNumber: 'ERP-046-243018-1',
+            district: 'NWFWMD', status: 'New Application',
             type: 'Environmental Resource Permit',
-            applicant: 'Emerald Coast Builders', owner: 'Okaloosa Holdings LLC',
-            project: 'Destin Harbor Residences',
-            county: 'Okaloosa', location: '650 Harbor Blvd, Destin, FL 32541',
-            units: 196, daysAgo: 0,
+            applicant: 'Kolter Homes LLC', owner: 'Destin West Holdings',
+            project: 'Destin Harbor Residences — SWM and Wetlands',
+            county: 'Okaloosa',
+            location: '650 Harbor Blvd, Destin, FL 32541',
+            units: 196, acreage: 45.3, daysAgo: 0,
             permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.3935, lon: -86.4958
         },
         {
-            id: 'NWF-2026-00229', district: 'NWFWMD', status: 'Approved',
-            type: 'Water Use Permit',
-            applicant: 'Panhandle Property Group', owner: 'Bay County Development Authority',
-            project: 'Panama City Beach Coastal Living',
-            county: 'Bay', location: '15600 Panama City Beach Pkwy, Panama City Beach, FL 32413',
-            units: 144, daysAgo: 2,
+            permitNumber: 'ERP-003-239456',
+            applicationNumber: 'ERP-003-239456-3',
+            district: 'NWFWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Adams Homes LLC', owner: 'Bay County Development Authority',
+            project: 'SummerView — Residential Lots and SWM',
+            county: 'Bay',
+            location: '15600 Panama City Beach Pkwy, Panama City Beach, FL 32413',
+            units: 144, acreage: 52.7, daysAgo: 2,
             permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.1766, lon: -85.8055
         },
         {
-            id: 'APP-2026-00135', district: 'SFWMD', status: 'New Application',
-            type: 'Water Use Permit',
-            applicant: 'Everglades Edge Development', owner: 'Miami-Dade Residential Trust',
-            project: 'Homestead Prairie Townhomes',
-            county: 'Miami-Dade', location: '28000 SW 152nd Ave, Homestead, FL 33033',
-            units: 172, daysAgo: 3,
-            permitURL: 'https://www.sfwmd.gov/regpermitting',
-            lat: 25.4687, lon: -80.4776
-        },
-        {
-            id: 'SJR-2026-03879', district: 'SJRWMD', status: 'Approved',
-            type: 'Surface Water Management',
-            applicant: 'Clay County Construction Corp', owner: 'Fleming Island Associates',
-            project: 'Fleming Island Waterfront Estates',
-            county: 'Clay', location: '1845 Town Center Blvd, Fleming Island, FL 32003',
-            units: 96, daysAgo: 6,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?permitNumber=SJR-2026-03879&theAction=searchDetail',
-            lat: 30.0934, lon: -81.7189
-        },
-        {
-            id: 'SWF-2026-12029', district: 'SWFWMD', status: 'New Application',
-            type: 'Right of Way',
-            applicant: 'Polk County Homes Inc', owner: 'Central FL Investment Group',
-            project: 'Lakeland Heights Subdivision',
-            county: 'Polk', location: '5800 N Florida Ave, Lakeland, FL 33809',
-            units: 208, daysAgo: 1,
-            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
-            lat: 28.0395, lon: -81.9498
-        },
-        {
-            id: 'APP-2026-00128', district: 'SFWMD', status: 'Approved',
+            permitNumber: '13-110098-P',
+            applicationNumber: '13-110098-S',
+            district: 'SFWMD', status: 'New Application',
             type: 'Environmental Resource Permit',
-            applicant: 'Treasure Coast Ventures', owner: 'St. Lucie County Housing LLC',
-            project: 'Port St. Lucie Garden Homes',
-            county: 'St. Lucie', location: '1950 SW Gatlin Blvd, Port St. Lucie, FL 34952',
-            units: 340, daysAgo: 4,
+            applicant: 'Lennar Homes LLC', owner: 'Miami-Dade Residential Trust',
+            project: 'Centris — Single-Family Residential and SWM',
+            county: 'Miami-Dade',
+            location: '28000 SW 132nd Ave, Homestead, FL 33033',
+            units: 172, acreage: 96.2, daysAgo: 3,
             permitURL: 'https://www.sfwmd.gov/regpermitting',
-            lat: 27.2730, lon: -80.3582
+            lat: 25.4987, lon: -80.4476
         },
         {
-            id: 'NWF-2026-00221', district: 'NWFWMD', status: 'New Application',
-            type: 'Surface Water Management',
-            applicant: 'Gulf Breeze Properties LLC', owner: 'Santa Rosa Land Trust',
-            project: 'Navarre Waterside Community',
-            county: 'Santa Rosa', location: '8600 Navarre Pkwy, Navarre, FL 32566',
-            units: 112, daysAgo: 2,
+            permitNumber: '142365',
+            applicationNumber: '142365-6',
+            district: 'SJRWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'ICI Homes', owner: 'Eagle Landing Associates LLC',
+            project: 'Eagle Landing at Oakleaf — Phase 7 Expansion',
+            county: 'Clay',
+            location: '3975 Eagle Landing Pkwy, Orange Park, FL 32065',
+            units: 96, acreage: 38.5, daysAgo: 6,
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
+            lat: 30.1034, lon: -81.7389
+        },
+        {
+            permitNumber: '43043528',
+            applicationNumber: '729841',
+            district: 'SWFWMD', status: 'New Application',
+            type: 'Environmental Resource Permit',
+            applicant: 'Taylor Morrison', owner: 'Central FL Investment Group',
+            project: 'Lakeland Highlands — SWM and Residential Lots',
+            county: 'Polk',
+            location: '5800 Lakeland Highlands Rd, Lakeland, FL 33813',
+            units: 208, acreage: 115.3, daysAgo: 1,
+            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
+            lat: 27.9595, lon: -81.9298
+        },
+        {
+            permitNumber: '56-109654-P',
+            applicationNumber: '56-109654-S',
+            district: 'SFWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Mattamy Homes', owner: 'Tradition Land Company LLC',
+            project: 'Tradition Hilltop — Residential and SWM',
+            county: 'St. Lucie',
+            location: '10900 SW Village Pkwy, Port St. Lucie, FL 34987',
+            units: 340, acreage: 142.8, daysAgo: 4,
+            permitURL: 'https://www.sfwmd.gov/regpermitting',
+            lat: 27.2330, lon: -80.3982
+        },
+        {
+            permitNumber: 'ERP-057-241792',
+            applicationNumber: 'ERP-057-241792-1',
+            district: 'NWFWMD', status: 'New Application',
+            type: 'Environmental Resource Permit',
+            applicant: 'Holiday Builders Inc', owner: 'Santa Rosa Land Trust',
+            project: 'Navarre Waterside — Residential Lots and SWM',
+            county: 'Santa Rosa',
+            location: '8600 Navarre Pkwy, Navarre, FL 32566',
+            units: 112, acreage: 48.9, daysAgo: 2,
             permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.4018, lon: -86.8632
         },
         {
-            id: 'SRW-2026-00554', district: 'SRWMD', status: 'Approved',
+            permitNumber: 'ERP-042-227310',
+            applicationNumber: 'ERP-042-227310-4',
+            district: 'SRWMD', status: 'Approved',
             type: 'Environmental Resource Permit',
-            applicant: 'Marion Oaks Development', owner: 'Marion County Growth Partners',
-            project: 'Ocala Forest Ridge Homes',
-            county: 'Marion', location: '4600 SW 60th Ave, Ocala, FL 34482',
-            units: 76, daysAgo: 7,
+            applicant: 'On Top of the World Communities', owner: 'Marion County Growth Partners',
+            project: 'Del Webb Stone Creek — Phase 12 Expansion',
+            county: 'Marion',
+            location: '8045 SW 62nd Ave Rd, Ocala, FL 34476',
+            units: 76, acreage: 31.4, daysAgo: 7,
             permitURL: 'https://permitting.sjrwmd.com/srep/',
-            lat: 29.1872, lon: -82.1401
+            lat: 29.1272, lon: -82.1801
         },
         {
-            id: 'SJR-2026-03871', district: 'SJRWMD', status: 'New Application',
-            type: 'Well Construction',
-            applicant: 'Brevard Coastal Builders', owner: 'Space Coast Realty Trust',
-            project: 'Melbourne Beach Dunes Residences',
-            county: 'Brevard', location: '3100 N Harbor City Blvd, Melbourne, FL 32901',
-            units: 148, daysAgo: 1,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?permitNumber=SJR-2026-03871&theAction=searchDetail',
-            lat: 28.0836, lon: -80.6081
+            permitNumber: '151887',
+            applicationNumber: '151887-2',
+            district: 'SJRWMD', status: 'New Application',
+            type: 'Environmental Resource Permit',
+            applicant: 'Meritage Homes Corp', owner: 'Viera Company LLC',
+            project: 'Addison Village at Viera — Phase 3 SWM',
+            county: 'Brevard',
+            location: '6000 Stadium Pkwy, Viera, FL 32940',
+            units: 148, acreage: 67.2, daysAgo: 1,
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
+            lat: 28.2536, lon: -80.7281
         },
         {
-            id: 'SWF-2026-12021', district: 'SWFWMD', status: 'Approved',
-            type: 'Water Use Permit',
-            applicant: 'Citrus Hills Development Co', owner: 'Citrus County Land Trust',
-            project: 'Crystal River Preserve Homes',
-            county: 'Citrus', location: '1200 N Suncoast Blvd, Crystal River, FL 34429',
-            units: 52, daysAgo: 8,
-            permitURL: 'https://www18.swfwmd.state.fl.us/search/search/searchwupsimple.aspx',
-            lat: 28.9024, lon: -82.5927
+            permitNumber: '43039872',
+            applicationNumber: '705194',
+            district: 'SWFWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Homes by WestBay', owner: 'Citrus County Land Trust',
+            project: 'Citrus Hills — Brentwood Phase 2',
+            county: 'Citrus',
+            location: '2400 N Terra Vista Blvd, Citrus Hills, FL 34442',
+            units: 52, acreage: 19.6, daysAgo: 8,
+            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
+            lat: 28.9224, lon: -82.4527
         },
         {
-            id: 'APP-2026-00121', district: 'SFWMD', status: 'New Application',
-            type: 'Surface Water Management',
-            applicant: 'Keys Gateway Corp', owner: 'Monroe County Developers',
-            project: 'Key Largo Ocean View Condominiums',
-            county: 'Monroe', location: '103800 Overseas Hwy, Key Largo, FL 33037',
-            units: 84, daysAgo: 0,
+            permitNumber: '44-110301-P',
+            applicationNumber: '44-110301-S',
+            district: 'SFWMD', status: 'New Application',
+            type: 'Environmental Resource Permit',
+            applicant: 'Pritam Singh Development', owner: 'Ocean Reef Community Assoc',
+            project: 'Ocean Reef Residences — SWM and Utilities',
+            county: 'Monroe',
+            location: '35 Ocean Reef Dr, Key Largo, FL 33037',
+            units: 84, acreage: 12.4, daysAgo: 0,
             permitURL: 'https://www.sfwmd.gov/regpermitting',
-            lat: 25.0865, lon: -80.4473
+            lat: 25.2865, lon: -80.2673
         },
         {
-            id: 'NWF-2026-00215', district: 'NWFWMD', status: 'Approved',
-            type: 'Right of Way',
-            applicant: 'Tallahassee Living LLC', owner: 'Leon County Properties Inc',
-            project: 'Tallahassee Canopy Oaks Village',
-            county: 'Leon', location: '6300 Thomasville Rd, Tallahassee, FL 32312',
-            units: 168, daysAgo: 5,
+            permitNumber: 'ERP-037-240105',
+            applicationNumber: 'ERP-037-240105-2',
+            district: 'NWFWMD', status: 'Approved',
+            type: 'Environmental Resource Permit',
+            applicant: 'Ox Bottom Crest LLC', owner: 'Leon County Properties Inc',
+            project: 'Canopy at Welaunee — Phase 5 SWM System',
+            county: 'Leon',
+            location: '6300 Welaunee Blvd, Tallahassee, FL 32317',
+            units: 168, acreage: 78.4, daysAgo: 5,
             permitURL: 'https://permitting.sjrwmd.com/nwep/',
-            lat: 30.4383, lon: -84.2807
+            lat: 30.4983, lon: -84.1607
         }
     ];
 
     return rawData.map(d => ({
         ...d,
+        id: d.permitNumber,
         dateSubmitted: new Date(now.getTime() - (d.daysAgo + 5) * day),
         dateUpdated: new Date(now.getTime() - d.daysAgo * day)
     })).sort((a, b) => b.dateUpdated - a.dateUpdated);
