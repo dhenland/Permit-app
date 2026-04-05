@@ -8,7 +8,7 @@ const DISTRICTS = {
         fullName: 'South Florida Water Management District',
         shortName: 'South Florida',
         url: 'https://www.sfwmd.gov/doing-business-with-us/permits',
-        searchUrl: 'https://my.sfwmd.gov/ePermitting/MainPage.do'
+        searchUrl: 'https://www.sfwmd.gov/regpermitting'
     },
     SJRWMD: {
         code: 'SJRWMD',
@@ -80,7 +80,7 @@ function generateSamplePermits() {
             project: 'Palm Beach Gardens Residential Phase 3',
             county: 'Palm Beach', location: 'Palm Beach Gardens, FL 33418',
             units: 248, daysAgo: 0,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
+            permitURL: 'https://www.sfwmd.gov/regpermitting',
             lat: 26.8234, lon: -80.1389
         },
         {
@@ -90,7 +90,7 @@ function generateSamplePermits() {
             project: 'Coral Springs Waterway Village',
             county: 'Broward', location: 'Coral Springs, FL 33071',
             units: 186, daysAgo: 2,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
+            permitURL: 'https://www.sfwmd.gov/regpermitting',
             lat: 26.2712, lon: -80.2706
         },
         {
@@ -180,7 +180,7 @@ function generateSamplePermits() {
             project: 'Homestead Prairie Townhomes',
             county: 'Miami-Dade', location: 'Homestead, FL 33033',
             units: 172, daysAgo: 3,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
+            permitURL: 'https://www.sfwmd.gov/regpermitting',
             lat: 25.4687, lon: -80.4776
         },
         {
@@ -210,7 +210,7 @@ function generateSamplePermits() {
             project: 'Port St. Lucie Garden Homes',
             county: 'St. Lucie', location: 'Port St. Lucie, FL 34952',
             units: 340, daysAgo: 4,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
+            permitURL: 'https://www.sfwmd.gov/regpermitting',
             lat: 27.2730, lon: -80.3582
         },
         {
@@ -260,7 +260,7 @@ function generateSamplePermits() {
             project: 'Key Largo Ocean View Condominiums',
             county: 'Monroe', location: 'Key Largo, FL 33037',
             units: 84, daysAgo: 0,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
+            permitURL: 'https://www.sfwmd.gov/regpermitting',
             lat: 25.0865, lon: -80.4473
         },
         {
