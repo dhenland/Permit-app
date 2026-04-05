@@ -239,7 +239,7 @@
                     ${timeAgo}
                 </span>
                 <button class="district-link" data-url="${escapeHtml(permit.permitURL)}" onclick="event.stopPropagation(); window.open('${escapeHtml(permit.permitURL)}', '_blank');">
-                    View on District Site
+                    Search Permit Portal
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                         <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
@@ -331,13 +331,24 @@
                 </div>
             </div>
 
+            <div class="detail-section">
+                <div class="detail-section-title">Look Up This Permit</div>
+                <div class="detail-row">
+                    <div class="info-label">Search for this permit number on the district portal</div>
+                    <div class="info-value" style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                        <code style="background:var(--bg);padding:6px 12px;border-radius:6px;font-size:16px;font-weight:600;letter-spacing:0.5px;">${escapeHtml(permit.id)}</code>
+                        <button onclick="navigator.clipboard.writeText('${escapeHtml(permit.id)}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="background:var(--primary);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Copy</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="detail-link-btn">
                 <a href="${escapeHtml(permit.permitURL)}" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
                         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                     </svg>
-                    View on ${escapeHtml(district.shortName)} District Website
+                    Search on ${escapeHtml(district.shortName)} Permit Portal
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                         <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>

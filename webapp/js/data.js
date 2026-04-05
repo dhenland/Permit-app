@@ -7,31 +7,36 @@ const DISTRICTS = {
         code: 'SFWMD',
         fullName: 'South Florida Water Management District',
         shortName: 'South Florida',
-        url: 'https://www.sfwmd.gov/doing-business-with-us/permits'
+        url: 'https://www.sfwmd.gov/doing-business-with-us/permits',
+        searchUrl: 'https://my.sfwmd.gov/ePermitting/MainPage.do'
     },
     SJRWMD: {
         code: 'SJRWMD',
         fullName: 'St. Johns River Water Management District',
         shortName: 'St. Johns River',
-        url: 'https://permitting.sjrwmd.com/epermitting/jsp/public/publicSearch.jsp'
+        url: 'https://www.sjrwmd.com/permitting/',
+        searchUrl: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch'
     },
     SWFWMD: {
         code: 'SWFWMD',
         fullName: 'Southwest Florida Water Management District',
         shortName: 'Southwest Florida',
-        url: 'https://www.swfwmd.state.fl.us/permits'
+        url: 'https://www.swfwmd.state.fl.us/business/epermitting',
+        searchUrl: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx'
     },
     SRWMD: {
         code: 'SRWMD',
         fullName: 'Suwannee River Water Management District',
         shortName: 'Suwannee River',
-        url: 'https://www.mysuwanneeriver.com/162/Permits'
+        url: 'https://www.mysuwanneeriver.com/8/Permits-Rules',
+        searchUrl: 'https://permitting.sjrwmd.com/srep/'
     },
     NWFWMD: {
         code: 'NWFWMD',
         fullName: 'Northwest Florida Water Management District',
         shortName: 'Northwest Florida',
-        url: 'https://www.nwfwater.com/Permits'
+        url: 'https://nwfwater.com/permits/',
+        searchUrl: 'https://permitting.sjrwmd.com/nwep/'
     }
 };
 
@@ -75,7 +80,7 @@ function generateSamplePermits() {
             project: 'Palm Beach Gardens Residential Phase 3',
             county: 'Palm Beach', location: 'Palm Beach Gardens, FL 33418',
             units: 248, daysAgo: 0,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/PopupPermit.do?permit_number=APP-2026-00142',
+            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
             lat: 26.8234, lon: -80.1389
         },
         {
@@ -85,7 +90,7 @@ function generateSamplePermits() {
             project: 'Coral Springs Waterway Village',
             county: 'Broward', location: 'Coral Springs, FL 33071',
             units: 186, daysAgo: 2,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/PopupPermit.do?permit_number=APP-2026-00139',
+            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
             lat: 26.2712, lon: -80.2706
         },
         {
@@ -95,7 +100,7 @@ function generateSamplePermits() {
             project: 'Daytona Shores Residential Community',
             county: 'Volusia', location: 'Daytona Beach, FL 32114',
             units: 312, daysAgo: 1,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/public/publicPermit.jsp?permit=SJR-2026-03891',
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
             lat: 29.2108, lon: -81.0228
         },
         {
@@ -105,7 +110,7 @@ function generateSamplePermits() {
             project: 'Flagler Oaks Subdivision',
             county: 'Flagler', location: 'Palm Coast, FL 32137',
             units: 124, daysAgo: 3,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/public/publicPermit.jsp?permit=SJR-2026-03887',
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
             lat: 29.5847, lon: -81.2079
         },
         {
@@ -115,7 +120,7 @@ function generateSamplePermits() {
             project: 'Tampa Palms North Expansion',
             county: 'Hillsborough', location: 'Tampa, FL 33647',
             units: 420, daysAgo: 0,
-            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/PermitSearchResults.aspx?permit=SWF-2026-12045',
+            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
             lat: 28.0836, lon: -82.3940
         },
         {
@@ -125,7 +130,7 @@ function generateSamplePermits() {
             project: 'Sarasota Springs Community',
             county: 'Sarasota', location: 'Sarasota, FL 34238',
             units: 156, daysAgo: 4,
-            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/PermitSearchResults.aspx?permit=SWF-2026-12038',
+            permitURL: 'https://www18.swfwmd.state.fl.us/search/search/searchwupsimple.aspx',
             lat: 27.2823, lon: -82.4572
         },
         {
@@ -135,7 +140,7 @@ function generateSamplePermits() {
             project: 'Gainesville Green Estates',
             county: 'Alachua', location: 'Gainesville, FL 32606',
             units: 88, daysAgo: 1,
-            permitURL: 'https://www.mysuwanneeriver.com/permits/SRW-2026-00567',
+            permitURL: 'https://permitting.sjrwmd.com/srep/',
             lat: 29.6516, lon: -82.3248
         },
         {
@@ -145,7 +150,7 @@ function generateSamplePermits() {
             project: 'Lake City Lakefront Villas',
             county: 'Columbia', location: 'Lake City, FL 32025',
             units: 64, daysAgo: 5,
-            permitURL: 'https://www.mysuwanneeriver.com/permits/SRW-2026-00561',
+            permitURL: 'https://permitting.sjrwmd.com/srep/',
             lat: 30.1897, lon: -82.6393
         },
         {
@@ -155,7 +160,7 @@ function generateSamplePermits() {
             project: 'Destin Harbor Residences',
             county: 'Okaloosa', location: 'Destin, FL 32541',
             units: 196, daysAgo: 0,
-            permitURL: 'https://www.nwfwater.com/permits/NWF-2026-00234',
+            permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.3935, lon: -86.4958
         },
         {
@@ -165,7 +170,7 @@ function generateSamplePermits() {
             project: 'Panama City Beach Coastal Living',
             county: 'Bay', location: 'Panama City Beach, FL 32413',
             units: 144, daysAgo: 2,
-            permitURL: 'https://www.nwfwater.com/permits/NWF-2026-00229',
+            permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.1766, lon: -85.8055
         },
         {
@@ -175,7 +180,7 @@ function generateSamplePermits() {
             project: 'Homestead Prairie Townhomes',
             county: 'Miami-Dade', location: 'Homestead, FL 33033',
             units: 172, daysAgo: 3,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/PopupPermit.do?permit_number=APP-2026-00135',
+            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
             lat: 25.4687, lon: -80.4776
         },
         {
@@ -185,7 +190,7 @@ function generateSamplePermits() {
             project: 'Fleming Island Waterfront Estates',
             county: 'Clay', location: 'Fleming Island, FL 32003',
             units: 96, daysAgo: 6,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/public/publicPermit.jsp?permit=SJR-2026-03879',
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
             lat: 30.0934, lon: -81.7189
         },
         {
@@ -195,7 +200,7 @@ function generateSamplePermits() {
             project: 'Lakeland Heights Subdivision',
             county: 'Polk', location: 'Lakeland, FL 33809',
             units: 208, daysAgo: 1,
-            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/PermitSearchResults.aspx?permit=SWF-2026-12029',
+            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/ERPSearch.aspx',
             lat: 28.0395, lon: -81.9498
         },
         {
@@ -205,7 +210,7 @@ function generateSamplePermits() {
             project: 'Port St. Lucie Garden Homes',
             county: 'St. Lucie', location: 'Port St. Lucie, FL 34952',
             units: 340, daysAgo: 4,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/PopupPermit.do?permit_number=APP-2026-00128',
+            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
             lat: 27.2730, lon: -80.3582
         },
         {
@@ -215,7 +220,7 @@ function generateSamplePermits() {
             project: 'Navarre Waterside Community',
             county: 'Santa Rosa', location: 'Navarre, FL 32566',
             units: 112, daysAgo: 2,
-            permitURL: 'https://www.nwfwater.com/permits/NWF-2026-00221',
+            permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.4018, lon: -86.8632
         },
         {
@@ -225,7 +230,7 @@ function generateSamplePermits() {
             project: 'Ocala Forest Ridge Homes',
             county: 'Marion', location: 'Ocala, FL 34482',
             units: 76, daysAgo: 7,
-            permitURL: 'https://www.mysuwanneeriver.com/permits/SRW-2026-00554',
+            permitURL: 'https://permitting.sjrwmd.com/srep/',
             lat: 29.1872, lon: -82.1401
         },
         {
@@ -235,7 +240,7 @@ function generateSamplePermits() {
             project: 'Melbourne Beach Dunes Residences',
             county: 'Brevard', location: 'Melbourne, FL 32901',
             units: 148, daysAgo: 1,
-            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/public/publicPermit.jsp?permit=SJR-2026-03871',
+            permitURL: 'https://permitting.sjrwmd.com/epermitting/jsp/Search.do?theAction=PermitNumSearch',
             lat: 28.0836, lon: -80.6081
         },
         {
@@ -245,7 +250,7 @@ function generateSamplePermits() {
             project: 'Crystal River Preserve Homes',
             county: 'Citrus', location: 'Crystal River, FL 34429',
             units: 52, daysAgo: 8,
-            permitURL: 'https://www18.swfwmd.state.fl.us/erp/erp/search/PermitSearchResults.aspx?permit=SWF-2026-12021',
+            permitURL: 'https://www18.swfwmd.state.fl.us/search/search/searchwupsimple.aspx',
             lat: 28.9024, lon: -82.5927
         },
         {
@@ -255,7 +260,7 @@ function generateSamplePermits() {
             project: 'Key Largo Ocean View Condominiums',
             county: 'Monroe', location: 'Key Largo, FL 33037',
             units: 84, daysAgo: 0,
-            permitURL: 'https://my.sfwmd.gov/ePermitting/PopupPermit.do?permit_number=APP-2026-00121',
+            permitURL: 'https://my.sfwmd.gov/ePermitting/MainPage.do',
             lat: 25.0865, lon: -80.4473
         },
         {
@@ -265,7 +270,7 @@ function generateSamplePermits() {
             project: 'Tallahassee Canopy Oaks Village',
             county: 'Leon', location: 'Tallahassee, FL 32312',
             units: 168, daysAgo: 5,
-            permitURL: 'https://www.nwfwater.com/permits/NWF-2026-00215',
+            permitURL: 'https://permitting.sjrwmd.com/nwep/',
             lat: 30.4383, lon: -84.2807
         }
     ];
