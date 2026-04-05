@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FL Zoning">
+    <meta name="theme-color" content="#0066cc">
+    <meta name="description" content="Daily Florida municipal planning and zoning approval scanner">
+
+    <title>FL Municipal Zoning Scanner</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/scanner.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="index.html" class="icon-btn" aria-label="Back to Permits">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                    </a>
+                </div>
+                <h1 class="header-title">Zoning Scanner</h1>
+                <div class="header-right">
+                    <button id="view-toggle-btn" class="icon-btn" aria-label="Toggle view">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Search Bar -->
+            <div class="search-container">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="search" id="search-input" class="search-input" placeholder="Search municipalities, actions...">
+            </div>
+        </header>
+
+        <!-- Summary Stats Bar -->
+        <div id="stats-bar" class="scanner-stats-bar">
+            <div class="stat-pill">
+                <span class="stat-number" id="stat-municipalities">--</span>
+                <span class="stat-label">Cities</span>
+            </div>
+            <div class="stat-pill">
+                <span class="stat-number" id="stat-documents">--</span>
+                <span class="stat-label">Documents</span>
+            </div>
+            <div class="stat-pill">
+                <span class="stat-number" id="stat-actions">--</span>
+                <span class="stat-label">Actions</span>
+            </div>
+            <div class="stat-pill">
+                <span class="stat-number" id="stat-date">--</span>
+                <span class="stat-label">Scan Date</span>
+            </div>
+        </div>
+
+        <!-- Region Filter Tabs -->
+        <div id="region-tabs" class="region-tabs">
+            <button class="region-tab active" data-region="all">All</button>
+        </div>
+
+        <!-- Main Content -->
+        <main id="scanner-feed" class="scanner-feed">
+            <!-- Cards injected here -->
+        </main>
+
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading scan results...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state hidden">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <h3>No results found</h3>
+            <p>Try adjusting your search or region filter.</p>
+        </div>
+    </div>
+
+    <!-- Document Detail Modal -->
+    <div id="detail-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="detail-back-btn" class="icon-btn" aria-label="Back">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <h2 class="modal-title">Municipality Details</h2>
+                <div style="width:36px"></div>
+            </div>
+            <div id="detail-body" class="modal-body">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scanner-data.js"></script>
+    <script src="js/scanner-app.js"></script>
+</body>
+</html>
